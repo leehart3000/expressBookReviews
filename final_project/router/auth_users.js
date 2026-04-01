@@ -58,8 +58,42 @@ regd_users.post("/login", (req,res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+
+    // Retrieve the ISBN parameter from the request URL and get the corresponding book entry
+    const isbn = req.params.isbn;
+    // Note that `find` will get the first match.
+    const book = Object.values(books).find(book => book.isbn === isbn);
+
+    // Retrieve the review from the request query.
+    review = req.query.review;
+
+    // Retrieve the username from the session.
+    username = req.session.authorization.username;
+
+    // Replace or insert the book review.
+    book.reviews[username] = review;
+    
+    return res.status(200).send("Review successfully created or updated");
+});
+
+// Delete a book review
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+
+    // Retrieve the ISBN parameter from the request URL and get the corresponding book entry
+    const isbn = req.params.isbn;
+    // Note that `find` will get the first match.
+    const book = Object.values(books).find(book => book.isbn === isbn);
+
+    // Retrieve the review from the request query.
+    review = req.query.review;
+
+    // Retrieve the username from the session.
+    username = req.session.authorization.username;
+
+    // Delete the book review.
+    delete book.reviews[username];
+    
+    return res.status(200).send("Review deleted");
 });
 
 module.exports.authenticated = regd_users;
