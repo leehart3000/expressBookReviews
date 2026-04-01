@@ -56,15 +56,18 @@ public_users.get('/', async function (req, res) {
 });
 
 // Get book details based on ISBN
-public_users.get('/isbn/:isbn',function (req, res) {
-  
-    // Retrieve the ISBN parameter from the request URL and send the corresponding book details
-    const isbn = req.params.isbn;
-    const booksByISBN = Object.values(books).filter(book => book.isbn === isbn);
+public_users.get('/isbn/:isbn', async function (req, res) {
+    try {
+        // Retrieve the ISBN parameter from the request URL and send the corresponding book details
+        const isbn = req.params.isbn;
+        const data = await Promise.resolve(books);
+        const booksByISBN = Object.values(data).filter(book => book.isbn === isbn);
 
-	// Send JSON response with formatted booksByISBN data
-    res.send(JSON.stringify(booksByISBN,null,4));
-
+        // Send JSON response with formatted booksByISBN data
+        res.send(JSON.stringify(booksByISBN,null,4));
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
  });
   
 // Get book details based on author
@@ -83,15 +86,18 @@ public_users.get('/author/:author', async function (req, res) {
 });
 
 // Get all books based on title
-public_users.get('/title/:title',function (req, res) {
+public_users.get('/title/:title', async function (req, res) {
+    try {
+        // Retrieve the title parameter from the request URL and send the corresponding book details
+        const title = req.params.title;
+        const data = await Promise.resolve(books);
+        const booksByTitle = Object.values(data).filter(book => book.title === title);
 
-    // Retrieve the title parameter from the request URL and send the corresponding book details
-    const title = req.params.title;
-    const booksByTitle = Object.values(books).filter(book => book.title === title);
-
-	// Send JSON response with formatted booksByTitle data
-    res.send(JSON.stringify(booksByTitle,null,4));
-
+        // Send JSON response with formatted booksByTitle data
+        res.send(JSON.stringify(booksByTitle,null,4));
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 //  Get book review
