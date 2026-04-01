@@ -48,8 +48,9 @@ public_users.post("/register", (req,res) => {
 // Get the book list available in the shop
 public_users.get('/', async function (req, res) {
     try {
-        const data = await Promise.resolve(books);
-        res.send(JSON.stringify(data,null,4));
+        const response = await axios.get('https://example.com/books');
+        const externalBooks = response.data;
+        res.send(JSON.stringify(externalBooks,null,4));
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -60,8 +61,9 @@ public_users.get('/isbn/:isbn', async function (req, res) {
     try {
         // Retrieve the ISBN parameter from the request URL and send the corresponding book details
         const isbn = req.params.isbn;
-        const data = await Promise.resolve(books);
-        const booksByISBN = Object.values(data).filter(book => book.isbn === isbn);
+        const response = await axios.get('https://example.com/books');
+        const externalBooks = response.data;
+        const booksByISBN = Object.values(externalBooks).filter(book => book.isbn === isbn);
 
         // Send JSON response with formatted booksByISBN data
         res.send(JSON.stringify(booksByISBN,null,4));
@@ -75,8 +77,9 @@ public_users.get('/author/:author', async function (req, res) {
     try {
         // Retrieve the author parameter from the request URL and send the corresponding book details
         const author = req.params.author;
-        const data = await Promise.resolve(books);
-        const booksByAuthor = Object.values(data).filter(book => book.author === author);
+        const response = await axios.get('https://example.com/books');
+        const externalBooks = response.data;
+        const booksByAuthor = Object.values(externalBooks).filter(book => book.author === author);
 
         // Send JSON response with formatted booksByAuthor data
         res.send(JSON.stringify(booksByAuthor, null, 4));
@@ -90,8 +93,9 @@ public_users.get('/title/:title', async function (req, res) {
     try {
         // Retrieve the title parameter from the request URL and send the corresponding book details
         const title = req.params.title;
-        const data = await Promise.resolve(books);
-        const booksByTitle = Object.values(data).filter(book => book.title === title);
+        const response = await axios.get('https://example.com/books');
+        const externalBooks = response.data;
+        const booksByTitle = Object.values(externalBooks).filter(book => book.title === title);
 
         // Send JSON response with formatted booksByTitle data
         res.send(JSON.stringify(booksByTitle,null,4));
