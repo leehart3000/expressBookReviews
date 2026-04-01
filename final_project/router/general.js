@@ -12,32 +12,59 @@ public_users.post("/register", (req,res) => {
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+
+	// Send JSON response with formatted books data
+    res.send(JSON.stringify(books,null,4));
+
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  
+    // Retrieve the ISBN parameter from the request URL and send the corresponding book details
+    const isbn = req.params.isbn;
+    const booksByISBN = Object.values(books).filter(book => book.isbn === isbn);
+
+	// Send JSON response with formatted booksByISBN data
+    res.send(JSON.stringify(booksByISBN,null,4));
+
  });
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+
+    // Retrieve the author parameter from the request URL and send the corresponding book details
+    const author = req.params.author;
+    const booksByAuthor = Object.values(books).filter(book => book.author === author);
+
+	// Send JSON response with formatted booksByAuthor data
+    res.send(JSON.stringify(booksByAuthor,null,4));
+
 });
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+
+    // Retrieve the title parameter from the request URL and send the corresponding book details
+    const title = req.params.title;
+    const booksByTitle = Object.values(books).filter(book => book.title === title);
+
+	// Send JSON response with formatted booksByTitle data
+    res.send(JSON.stringify(booksByTitle,null,4));
+
 });
 
 //  Get book review
 public_users.get('/review/:isbn',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+
+    // Retrieve the ISBN parameter from the request URL and send the corresponding book reviews
+    const isbn = req.params.isbn;
+    const booksByISBN = Object.values(books).filter(book => book.isbn === isbn);
+    const bookReviews = booksByISBN.map(book => book.reviews)
+
+	// Send JSON response with formatted bookReviews data
+    res.send(JSON.stringify(bookReviews,null,4));
+
 });
 
 module.exports.general = public_users;
